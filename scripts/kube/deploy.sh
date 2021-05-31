@@ -160,13 +160,9 @@ kubectl apply -f $BUILD_DIRNAME/airflow.yaml
 # It seems like there are 3 deploy scenarios
 # Ansbile Kubernetes file change => Run kubectl apply
 # Other Ansible change => Build image with Packer, push to ECR, run kubectl apply
-# data-pipelines change => I am not exactly sure how this would work but here's one draft idea inspired
-# by website-django https://udemy.slack.com/archives/C1MESPDAN/p1622069504140000
-# 1. Separate data-pipelines from udemy_release_datainfra_bot as it's own role and remove from Airflow playbook
-# 2. Build image with Packer/Ansible and use to launch EKS worker group
-# 3. Create a Dockerfile for data-pipelines. We can leverage this https://github.com/udemy/data-pipelines/blob/master/docker/Dockerfile
-# 4. Use Dockerfile as image for Kubernetes deployment
-# 5. During data-pipelines deployment, a. Build new Docker image and push to ECR 2. Run kubectl set image <latest image>
+# data-pipelines change => We can use approach that website-django uses today
+# 1. Build data-pipelines image and push to ECR
+# 2. Use kubectl to set new image https://github.com/udemy/website-release/blob/master/fabfile-django.py#L81
 # POC Goal: Understand how Ansible-built Packer images interact with Dockerfile built images
 # POC Goal: Test data-pipelines deloyment option above
 # POC Goal: Understand how each deploy type above impacts uptime
